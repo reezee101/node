@@ -250,17 +250,23 @@ app.get('/upload', function (req, res) {
 })
 //profile이라는 name 속성을 가진 input 데이터를 불러옴 
 //app.post('/upload', upload.array('profile', 10), function (req, res) { //다건 파일 'profile', 10 : profile 최대 10개까지 
-app.post('/upload', upload.single('profile'), function(req, res){ //단건 파일
+app.post('/upload', upload.single('profile'), function (req, res) { //단건 파일
     res.send('응답')
 
 })
 
-app.get('/image/:imgNm', function(req, res){
-    res.sendFile(__dirname + '/public/image/' + req.params.imgNm )
+app.get('/image/:imgNm', function (req, res) {
+    res.sendFile(__dirname + '/public/image/' + req.params.imgNm)
 })
 
-
-
+//채팅방
+app.get('/chat', loginOrNot, function (req, res) {
+    db.collection('post').find().toArray(function (err, result) {
+        if (err) return console.log(err);
+        console.log(result)
+        res.render('chat.ejs', { posts: result, user: req.user });
+    })
+});
 
 
 
@@ -269,5 +275,4 @@ app.use('/shop', require('./routes/shop.js'));
 
 //로그인 한 사람만 접속가능 
 app.use('/board/sub', loginOrNot, require('./routes/board.js'));
-
 

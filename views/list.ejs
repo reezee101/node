@@ -34,6 +34,7 @@
           <p> 할일 마감날짜 : <%= posts[i].date %>
           </p>
           <button class="btn btn-danger delete" data-id="<%= posts[i]._id %>">삭제</button>
+          <button class="btn btn-danger chat" data-id="<%= posts[i] %>">이 유저와 채팅하기</button>
         </li>
         <% } %>
     </ul>
@@ -42,7 +43,7 @@
     <script>
       $('#search').click(function (e) {
         let inputVal = $('#search-input').val();
-        window.location.replace( '/search?value=' +  inputVal)
+        window.location.replace('/search?value=' + inputVal)
       })
 
 
@@ -58,6 +59,12 @@
         }).fail(function () {
 
         })
+      });
+
+      $('.chat').click(function (e) {
+        let id = e.target.dataset.id;
+        let chatBtn = $(this);
+        window.location.href = '/chat?_id=' + id, '&id=' + user.id + '&date=' + new Date() + '&title=' + '새로운채팅방';
       })
 
     </script>
